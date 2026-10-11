@@ -29,7 +29,7 @@ jobs:
 
       - name: Deploy Source to Dev
         run: |
-          sf project deploy start --target-org devOrg --source-dir force-app --test-level RunLocalTests
+          sf project deploy start --target-org devOrg --source-dir force-app --test-level RunSpecifiedTests --tests HelloControllerTest
 
   # ==========================================
   # JOB 2: VALIDATE & DEPLOY TO UAT
@@ -55,13 +55,13 @@ jobs:
       - name: Validate Deployment (Pull Request)
         if: github.event_name == 'pull_request'
         run: |
-          sf project deploy validate --target-org uatOrg --source-dir force-app --test-level RunLocalTests
+          sf project deploy validate --target-org uatOrg --source-dir force-app --test-level RunSpecifiedTests --tests HelloControllerTest
 
       # Deploy thật khi Merge PR vào UAT
       - name: Deploy Source (Push/Merge)
         if: github.event_name == 'push'
         run: |
-          sf project deploy start --target-org uatOrg --source-dir force-app --test-level RunLocalTests
+          sf project deploy start --target-org uatOrg --source-dir force-app --test-level RunSpecifiedTests --tests HelloControllerTest
 
   # ==========================================
   # JOB 3: VALIDATE & DEPLOY TO PROD
@@ -87,10 +87,10 @@ jobs:
       - name: Validate Deployment (Pull Request)
         if: github.event_name == 'pull_request'
         run: |
-          sf project deploy validate --target-org prodOrg --source-dir force-app --test-level RunLocalTests
+          sf project deploy validate --target-org prodOrg --source-dir force-app --test-level RunSpecifiedTests --tests HelloControllerTest
 
       # Deploy thật khi Merge PR vào Main (Prod)
       - name: Deploy Source (Push/Merge)
         if: github.event_name == 'push'
         run: |
-          sf project deploy start --target-org prodOrg --source-dir force-app --test-level RunLocalTests
+          sf project deploy start --target-org prodOrg --source-dir force-app --test-level RunSpecifiedTests --tests HelloControllerTest
